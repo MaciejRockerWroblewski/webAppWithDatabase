@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MatchEndpoint {
 
-    private MatchService matchService;
+    private final MatchService matchService;
 
     @GetMapping
     public List<Match> getAll(){
