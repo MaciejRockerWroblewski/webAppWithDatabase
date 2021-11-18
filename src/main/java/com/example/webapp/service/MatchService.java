@@ -1,11 +1,13 @@
 package com.example.webapp.service;
 
 import com.example.webapp.api.Match;
+import com.example.webapp.exception.DateInPastException;
 import com.example.webapp.repository.MatchEntity;
 import com.example.webapp.repository.MatchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +22,10 @@ public class MatchService {
             throw new IllegalStateException("Nie podano zespołów biorących udział w meczu.");
         }
 
+        if (LocalDateTime.now().isAfter(match.getStartTime())){
+            throw new DateInPastException("Godzina meczu jest z przeszłości.");
+        }
+
         repository.save(MatchEntity.builder()
                 .firstTeam(match.getFirstTeam())
                 .secondTeam(match.getSecondTeam())
@@ -29,7 +35,11 @@ public class MatchService {
     }
 
     public void update(Match match) {
-        repository.save(MatchEntity.builder()
+
+        if (LocalDateTime.now().isAfter(match.getStartTime())) {
+            throw new DateInPastException("Godzina meczu jest z przeszłości.");
+        }
+            repository.save(MatchEntity.builder()
                 .id(match.getId())
                 .firstTeam(match.getFirstTeam())
                 .secondTeam(match.getSecondTeam())

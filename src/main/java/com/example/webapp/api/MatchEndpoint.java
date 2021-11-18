@@ -1,5 +1,6 @@
 package com.example.webapp.api;
 
+import com.example.webapp.exception.DateInPastException;
 import com.example.webapp.service.MatchService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -7,8 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.example.webapp.api.model.Error;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/match")
@@ -49,5 +53,20 @@ public class MatchEndpoint {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(value = {DateInPastException.class})
+    public ResponseEntity<Error> handleDateInPast(DateInPastException ex) {
+        String code = UUID.randomUUID().toString();
+        LOGGER.error("Error occured", ex);
+        Error error = Error.builder()
+                .code(code)
+                .message(ex.getMessage())
+                .timestamp(LocalDateTime.now().toString())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
     }
 }
