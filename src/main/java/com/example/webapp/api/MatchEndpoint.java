@@ -5,14 +5,18 @@ import com.example.webapp.service.MatchService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.example.webapp.api.model.Error;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/match")
@@ -29,13 +33,25 @@ public class MatchEndpoint {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createMatch(@RequestBody Match match) {
-        matchService.create(match);
+    public ResponseEntity createMatch(@Valid @RequestBody Match match, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Error.builder()
+                            .code(UUID.randomUUID().toString())
+                            .timestamp(LocalDateTime.now().toString())
+                            .message(bindingResult.getAllErrors().stream()
+                                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                                    .collect(Collectors.joining(", ")))
+                    .build());
+        }
+         matchService.create(match);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+
     }
 
     @PutMapping
-    public void updateMatch(@RequestBody Match match) {
+    public void updateMatch(@Valid @RequestBody Match match) {
         matchService.update(match);
     }
 
