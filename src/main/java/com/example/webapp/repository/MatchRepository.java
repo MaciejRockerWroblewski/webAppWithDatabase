@@ -31,7 +31,7 @@ public class MatchRepository {
     public void save(MatchEntity match) {
         List<MatchEntity> allMatches = readFromFile();
         if (match.getId() == null){
-            long currentMaxId = allMatches.stream().mapToLong(mat -> mat.getId()).max().orElse(0L);
+            long currentMaxId = allMatches.stream().mapToLong(MatchEntity::getId).max().orElse(0L);
             match.setId(++currentMaxId);
         } else{
             allMatches.removeIf(ent -> ent.getId().equals(match.getId()));
@@ -50,7 +50,9 @@ public class MatchRepository {
         allMatches.removeIf(mat -> mat.getId().equals(id));
         storeInFile(allMatches);
 
-
+    }
+    public boolean existsById(Long id) {
+        return readFromFile().stream().anyMatch(mat -> mat.getId().equals(id));
     }
 
     private void storeInFile(List<MatchEntity> matchEntities){
