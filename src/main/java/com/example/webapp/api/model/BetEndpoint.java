@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/bet")
 @RequiredArgsConstructor
@@ -15,7 +17,7 @@ public class BetEndpoint {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createBet(@RequestBody Bet bet) {
+    public void createBet(@Valid @RequestBody Bet bet) {
         betService.createBet(bet);
     }
 
