@@ -4,6 +4,7 @@ import com.example.webapp.api.validator.DifferentTeams;
 import com.example.webapp.api.validator.TeamName;
 import lombok.*;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -23,5 +24,10 @@ public class Match {
     private String secondTeam;
     @Future(message = "Data rozegrania meczu nie może być z przeszłości. ")
     private LocalDateTime startTime;
+
+    @AssertTrue(message = "Mecze mogą się odbywać tylko po południu.")
+    public boolean isStartTimeAfternoon() {
+        return startTime.getHour() >= 12;
+    }
 
 }

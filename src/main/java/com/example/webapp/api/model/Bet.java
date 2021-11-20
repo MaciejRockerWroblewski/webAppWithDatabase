@@ -3,6 +3,8 @@ package com.example.webapp.api.model;
 import lombok.*;
 
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+import java.security.MessageDigest;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,7 +14,9 @@ import javax.validation.constraints.AssertTrue;
 public class Bet {
 
     private Long id;
+    @NotNull(message = "Nie podano meczu")
     private Long matchId;
+    @NotNull(message = "Nie podano użytkownika")
     private Long userId;
     private Integer firstTeamResult;
     private Integer secondTeamResult;
