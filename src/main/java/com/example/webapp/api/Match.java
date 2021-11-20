@@ -1,5 +1,7 @@
 package com.example.webapp.api;
 
+import com.example.webapp.api.validator.DifferentTeams;
+import com.example.webapp.api.validator.TeamName;
 import lombok.*;
 
 import javax.validation.constraints.Future;
@@ -11,8 +13,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DifferentTeams
 public class Match {
     private Long id;
+    @TeamName
     @NotBlank(message = "Nazwa zespołu nie może być pusta.")
     private String firstTeam;
     @NotBlank(message = "Nazwa zespołu ni może być pusta.")
