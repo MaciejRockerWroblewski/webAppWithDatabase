@@ -18,18 +18,19 @@ public class MatchService {
 
     private final MatchRepository repository;
 
-    public boolean checkIfMatchExists (Long id){
+    public boolean checkIfMatchExists(Long id) {
         return repository.existsById(id);
     }
+
     public void create(Match match) {
         if (match.getFirstTeam().isEmpty() || match.getSecondTeam().isEmpty()) {
             throw new IllegalStateException("Nie podano zespołów biorących udział w meczu.");
         }
 
-        if (LocalDateTime.now().isAfter(match.getStartTime())){
+        if (LocalDateTime.now().isAfter(match.getStartTime())) {
             throw new DateInPastException("Godzina meczu jest z przeszłości.");
         }
-        if (!repository.existsById(match.getId())){
+        if (!repository.existsById(match.getId())) {
             throw new MatchNotFoundException("Mecz nie istnieje.");
         }
 
@@ -46,7 +47,7 @@ public class MatchService {
         if (LocalDateTime.now().isAfter(match.getStartTime())) {
             throw new DateInPastException("Godzina meczu jest z przeszłości.");
         }
-            repository.save(MatchEntity.builder()
+        repository.save(MatchEntity.builder()
                 .id(match.getId())
                 .firstTeam(match.getFirstTeam())
                 .secondTeam(match.getSecondTeam())
@@ -55,15 +56,14 @@ public class MatchService {
     }
 
     public void delete(Long id) {
-        if (!repository.existsById(id)){
+        if (!repository.existsById(id)) {
             throw new MatchNotFoundException("Mecz nie istnieje.");
         }
-        repository.delete(id);
-
+        repository.deleteById(id);
     }
 
     public List<Match> getAll() {
-        return repository.getAll().stream()
+        return repository.findAll().stream()
                 .map(ent -> Match.builder()
                         .id(ent.getId())
                         .firstTeam(ent.getFirstTeam())
