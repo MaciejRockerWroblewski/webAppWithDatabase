@@ -11,7 +11,7 @@ import java.security.MessageDigest;
 @Builder
 @Getter
 @Setter
-public class Bet {
+public class NewBet {
 
     private Long id;
     @NotNull(message = "Nie podano meczu")
