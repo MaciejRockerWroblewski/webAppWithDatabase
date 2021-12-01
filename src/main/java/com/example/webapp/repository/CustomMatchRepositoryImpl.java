@@ -1,6 +1,5 @@
 package com.example.webapp.repository;
 
-import com.example.webapp.api.Match;
 import com.example.webapp.api.model.MatchSearchParameter;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +18,7 @@ public class CustomMatchRepositoryImpl implements CustomMatchRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Match> searchByParams(MatchSearchParameter searchParameter) {
+    public List<MatchEntity> searchByParams(MatchSearchParameter searchParameter) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<MatchEntity> query = cb.createQuery(MatchEntity.class);
         Root<MatchEntity> root = query.from(MatchEntity.class);

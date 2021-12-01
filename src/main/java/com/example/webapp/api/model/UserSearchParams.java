@@ -1,0 +1,17 @@
+package com.example.webapp.api.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class UserSearchParams {
+    private String firstName;
+    private String lastName;
+    private String login;
+    private boolean exactMatch;
+}

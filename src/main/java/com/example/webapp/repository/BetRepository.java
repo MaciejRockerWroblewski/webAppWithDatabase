@@ -19,16 +19,19 @@ public interface BetRepository extends JpaRepository<BetEntity, Long> {
             "where mat.startTime = (select min(match.startTime) from MatchEntity  match)")
     List<BetEntity> findBetsForEarliestMatch();
 
-    @Query("select bt from BetEntity where bt.firstTeamResult <> bt.secondTeamResult")
+    @Query("select bt from BetEntity bt where bt.firstTeamResult <> bt.secondTeamResult")
     List<BetEntity> findAllBetsWithoutDraws();
+
 
 
     @Query("select bt from BetEntity bt inner join bt.match mat " +
             "where (mat.firstTeam = :team or mat.secondTeam = :team) " +
             "and (mat.startTime between :startFrom and :startTo)")
-    List<BetEntity> findAllByTeamAndInTimeRange();
-    @Param("team") String team,
-    @Param("startFrom") LocalDateTime startFrom,
-    @Param("startTo") LocalDateTime startTo);
+
+    List<BetEntity> findAllByTeamAndInTimeRange(
+            @Param("team") String team,
+            @Param("startFrom") LocalDateTime startFrom,
+            @Param("startTo") LocalDateTime startTo
+    );
 
 }

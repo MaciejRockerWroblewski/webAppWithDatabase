@@ -1,6 +1,5 @@
 package com.example.webapp.service;
 
-
 import com.example.webapp.api.Match;
 import com.example.webapp.api.model.MatchSearchParameter;
 import com.example.webapp.exception.DateInPastException;
@@ -20,30 +19,24 @@ public class MatchService {
 
     private final MatchRepository repository;
 
-    public List<Match> getBySearchParameter(MatchSearchParameter searchParameter){
+    public List<Match> getBySearchParameter(MatchSearchParameter searchParameter) {
         return repository.searchByParams(searchParameter)
                 .stream()
-                .map(this::apply)
+                .map((Match ent) -> toMatch(MatchEntity.builder().build()))
                 .collect(Collectors.toList());
-
     }
 
     public boolean checkIfMatchExists(Long id) {
         return repository.existsById(id);
     }
 
-
-
     public void create(Match match) {
         if (match.getFirstTeam().isEmpty() || match.getSecondTeam().isEmpty()) {
-            throw new IllegalStateException("Nie podano zespołów biorących udział w meczu.");
+            throw new IllegalStateException("Nie podano zespolow bioracyh udzial w meczu");
         }
 
         if (LocalDateTime.now().isAfter(match.getStartTime())) {
-            throw new DateInPastException("Godzina meczu jest z przeszłości.");
-        }
-        if (!repository.existsById(match.getId())) {
-            throw new MatchNotFoundException("Mecz nie istnieje.");
+            //throw new DateInPastException("Godzina meczu jest z przeszlosci");
         }
 
         repository.save(MatchEntity.builder()
@@ -51,14 +44,17 @@ public class MatchService {
                 .secondTeam(match.getSecondTeam())
                 .startTime(match.getStartTime())
                 .build());
-
     }
 
     public void update(Match match) {
-
         if (LocalDateTime.now().isAfter(match.getStartTime())) {
-            throw new DateInPastException("Godzina meczu jest z przeszłości.");
+            throw new DateInPastException("Godzina meczu jest z przeszlosci");
         }
+
+        if (!repository.existsById(match.getId())) {
+            throw new MatchNotFoundException("Mecz nie istnieje");
+        }
+
         repository.save(MatchEntity.builder()
                 .id(match.getId())
                 .firstTeam(match.getFirstTeam())
@@ -69,16 +65,20 @@ public class MatchService {
 
     public void delete(Long id) {
         if (!repository.existsById(id)) {
-            throw new MatchNotFoundException("Mecz nie istnieje.");
+            throw new MatchNotFoundException("Mecz nie istnieje");
         }
+
         repository.deleteById(id);
     }
 
     public List<Match> getAll() {
         return repository.findAll().stream()
-                .map(ent -> toMatch(ent))
+                .map(this::toMatch)
                 .collect(Collectors.toList());
+    }
 
+    public Match getById(Long id) {
+        return toMatch(repository.getById(id));
     }
 
     private Match toMatch(MatchEntity ent) {
@@ -90,8 +90,5 @@ public class MatchService {
                 .build();
     }
 
-    private Match apply(Match ent) {
-        return toMatch(ent);
-    }
 }
 

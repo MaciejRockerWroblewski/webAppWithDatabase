@@ -19,4 +19,7 @@ public class User {
     private String login;
     private String firstName;
     private String lastName;
+
+    public String getRole() {
+    }
 }

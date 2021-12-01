@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long>, CustomUserRepository {
     Optional<UserEntity> findByLogin(String username);
     List<UserEntity> findAllByLoginEndsWith(String loginSuffix);
     List<UserEntity> findAllByFirstNameIgnoreCase(String firstName);
@@ -26,6 +26,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     List<UserEntity> findAllUsersWithBetsWithHighestNumberOfGoals();
 
     @Query("select distinct us.login from UserEntity us inner join us.bets ")
-    List<String> findLoginsOfUsersWithBets()
+    List<String> findLoginsOfUsersWithBets();
 
 }
