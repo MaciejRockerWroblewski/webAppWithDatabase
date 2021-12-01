@@ -9,6 +9,9 @@ List<BetEntity> findAllByUser_Id(Long userId);
 
 List<BetEntity> findAllByMatch_id(Long matchId);
 
+List<BetEntity> findAllByMatch_idAndAndFirstTeamResultAAndSecondTeamResult(Long matchId,
+                Integer firstTeamResult, Integer secondTeamResult);
+
 
 
 

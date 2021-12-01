@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface MatchRepository extends JpaRepository<MatchEntity, Long>, CustomMatchRepository {
 
-    List<MatchEntity> findAllByStartTimeIsBetween(LocalDateTime from, LocalDateTime to);
+   List<MatchEntity> findAllByStartTimeIsBetween(LocalDateTime from, LocalDateTime to);
 
-    List<MatchEntity> findAllByFirstTeamOrSecondTeam(String team1, String team2);
+   List<MatchEntity> findAllByFirstTeamOrSecondTeam(String team1, String team2);
 
-    List<MatchEntity> findAllByFirstTeamIn(List<String> possibleTeams);
+   List<MatchEntity> findAllByFirstTeamIn(List<String> possibleTeams);
 
 }
