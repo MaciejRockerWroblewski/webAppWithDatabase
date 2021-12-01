@@ -1,5 +1,7 @@
-package com.example.webapp.api;
+package com.example.webapp.api.validator;
 
+import com.example.webapp.api.Match;
+import com.example.webapp.api.model.MatchSearchParameter;
 import com.example.webapp.exception.DateInPastException;
 import com.example.webapp.service.MatchService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,11 @@ public class MatchEndpoint {
 
     private final MatchService matchService;
 
+    @PostMapping("/search")
+    public List<Match> getBySearchParameter(@RequestBody MatchSearchParameter searchParameter){
+        return matchService.getBySearchParameter(searchParameter);
+
+    }
     @GetMapping
     public List<Match> getAll() {
         return matchService.getAll();

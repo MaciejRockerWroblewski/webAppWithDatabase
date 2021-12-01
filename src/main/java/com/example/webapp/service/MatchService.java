@@ -1,12 +1,15 @@
 package com.example.webapp.service;
 
+
 import com.example.webapp.api.Match;
+import com.example.webapp.api.model.MatchSearchParameter;
 import com.example.webapp.exception.DateInPastException;
 import com.example.webapp.exception.MatchNotFoundException;
 import com.example.webapp.repository.MatchEntity;
 import com.example.webapp.repository.MatchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,9 +20,19 @@ public class MatchService {
 
     private final MatchRepository repository;
 
+    public List<Match> getBySearchParameter(MatchSearchParameter searchParameter){
+        return repository.searchByParams(searchParameter)
+                .stream()
+                .map(this::apply)
+                .collect(Collectors.toList());
+
+    }
+
     public boolean checkIfMatchExists(Long id) {
         return repository.existsById(id);
     }
+
+
 
     public void create(Match match) {
         if (match.getFirstTeam().isEmpty() || match.getSecondTeam().isEmpty()) {
@@ -63,15 +76,22 @@ public class MatchService {
 
     public List<Match> getAll() {
         return repository.findAll().stream()
-                .map(ent -> Match.builder()
-                        .id(ent.getId())
-                        .firstTeam(ent.getFirstTeam())
-                        .secondTeam(ent.getSecondTeam())
-                        .startTime(ent.getStartTime())
-                        .build())
+                .map(ent -> toMatch(ent))
                 .collect(Collectors.toList());
 
     }
 
+    private Match toMatch(MatchEntity ent) {
+        return Match.builder()
+                .id(ent.getId())
+                .firstTeam(ent.getFirstTeam())
+                .secondTeam(ent.getSecondTeam())
+                .startTime(ent.getStartTime())
+                .build();
+    }
+
+    private Match apply(Match ent) {
+        return toMatch(ent);
+    }
 }
 
