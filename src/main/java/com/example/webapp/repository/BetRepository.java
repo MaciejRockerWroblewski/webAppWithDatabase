@@ -29,7 +29,6 @@ public interface BetRepository extends JpaRepository<BetEntity, Long> {
     List<BetEntity> findAllByTeamAndInTimeRange();
     @Param("team") String team,
     @Param("startFrom") LocalDateTime startFrom,
-    @Param("startTo") LocalDateTime startTo
-            );
+    @Param("startTo") LocalDateTime startTo);
 
 }
