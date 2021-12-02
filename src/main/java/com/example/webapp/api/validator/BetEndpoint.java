@@ -1,6 +1,8 @@
-package com.example.webapp.api.model;
+package com.example.webapp.api.validator;
 
 
+import com.example.webapp.api.model.BetDetails;
+import com.example.webapp.api.model.NewBet;
 import com.example.webapp.service.BetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/bet")
+@RequestMapping("/api/bet")
 @RequiredArgsConstructor
 public class BetEndpoint {
 

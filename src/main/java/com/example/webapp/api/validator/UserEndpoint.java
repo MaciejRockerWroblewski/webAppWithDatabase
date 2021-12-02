@@ -1,5 +1,7 @@
-package com.example.webapp.api.model;
+package com.example.webapp.api.validator;
 
+import com.example.webapp.api.model.User;
+import com.example.webapp.api.model.UserSearchParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.example.webapp.api;
+package com.example.webapp.api.validator;
 
 import com.example.webapp.repository.BetRepository;
 import com.example.webapp.repository.MatchRepository;
