@@ -21,5 +21,6 @@ public class User {
     private String lastName;
 
     public String getRole() {
+    return null;
     }
 }

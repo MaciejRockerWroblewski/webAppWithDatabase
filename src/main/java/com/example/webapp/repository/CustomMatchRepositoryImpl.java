@@ -36,7 +36,7 @@ public class CustomMatchRepositoryImpl implements CustomMatchRepository {
                 predicates.add(cb.or(
                         cb.equal(root.get("firstTeam"), searchParameter.getFirstTeam()),
                         cb.equal(root.get("secondTeam"), searchParameter.getFirstTeam()
-                        ));
+                        )));
             } else {
                 predicates.add(cb.equal(root.get("firstTeam"), searchParameter.getFirstTeam()));
             }
@@ -46,7 +46,7 @@ public class CustomMatchRepositoryImpl implements CustomMatchRepository {
                 predicates.add(cb.or(
                         cb.equal(root.get("firstTeam"), searchParameter.getSecondTeam()),
                         cb.equal(root.get("secondTeam"), searchParameter.getSecondTeam()
-                        ));
+                        )));
             } else {
                 predicates.add(cb.equal(root.get("secondTeam"), searchParameter.getSecondTeam()));
             }
