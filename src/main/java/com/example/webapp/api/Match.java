@@ -3,6 +3,7 @@ package com.example.webapp.api;
 import com.example.webapp.api.validator.DifferentTeams;
 import com.example.webapp.api.validator.TeamName;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Future;
@@ -23,6 +24,7 @@ public class Match {
     @NotBlank(message = "Nazwa zespołu ni może być pusta.")
     private String secondTeam;
     @Future(message = "Data rozegrania meczu nie może być z przeszłości. ")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startTime;
 
     @AssertTrue(message = "Mecze mogą się odbywać tylko po południu.")
