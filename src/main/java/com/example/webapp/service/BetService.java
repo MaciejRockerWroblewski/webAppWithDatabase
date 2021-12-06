@@ -69,6 +69,22 @@ public class BetService {
                 .collect(Collectors.toList());
     }
 
+    public List<BetDetails> getAll(){
+        return betRepository.findAll()
+                .stream()
+                .map(ent -> BetDetails.builder()
+                        .id(ent.getId())
+                        .firstTeam(ent.getMatch().getFirstTeam())
+                        .secondTeam(ent.getMatch().getSecondTeam())
+                        .startTime(ent.getMatch().getStartTime())
+                        .userLogin(ent.getUser().getLogin())
+                        .userName(ent.getUser().getFirstName() + " " + ent.getUser().getLastName())
+                        .firstTeamResult(ent.getFirstTeamResult())
+                        .secondTeamResult(ent.getSecondTeamResult())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
     private void validateBet(NewBet bet) {
         if (!matchService.checkIfMatchExists(bet.getMatchId())) {
             throw new MatchNotFoundException("Mecz nie istnieje.");
