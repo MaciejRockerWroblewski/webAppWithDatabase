@@ -8,7 +8,7 @@
 <body>
 <h3>Dodaj użytkownika:</h3>
 
-<form method="post" th:object="${user}" th:action="@{/user}"
+<form method="post" th:object="${user}" th:action="@{/user}">
       Imię:<input type="text" th:field="*{firstName}"/>
 Nazwisko: <input type="text" th:field="*{lastName}"/>
 Login: <input type="email" th:field="*{login}"/><br>
