@@ -32,4 +32,8 @@ public class Match {
         return startTime.getHour() >= 12;
     }
 
+    public boolean isFromPast(){
+        return LocalDateTime.now().isAfter(StartTime);
+    }
+
 }
