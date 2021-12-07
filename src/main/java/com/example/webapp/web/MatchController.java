@@ -27,6 +27,11 @@ public class MatchController {
         modelAndView.addObject("match", matchService.getById(id));
         return modelAndView;
     }
+    @GetMapping("/delete")
+    public RedirectView deleteMatch(@RequestParam Long id) {
+        matchService.delete(id);
+        return new RedirectView("/match/all");
+    }
 
     @GetMapping
     public ModelAndView displayAddMatchPage(){
