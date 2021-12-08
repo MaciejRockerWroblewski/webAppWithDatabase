@@ -29,11 +29,11 @@ public class Match {
 
     @AssertTrue(message = "Mecze mogą się odbywać tylko po południu.")
     public boolean isStartTimeAfternoon() {
-        return startTime.getHour() >= 12;
+        return startTime == null || startTime.getHour() >= 12;
     }
 
     public boolean isFromPast(){
-        return LocalDateTime.now().isAfter(StartTime);
+        return LocalDateTime.now().isAfter(startTime);
     }
 
 }

@@ -5,9 +5,12 @@ import com.example.webapp.service.BetService;
 import com.example.webapp.service.MatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/match")
@@ -52,13 +55,16 @@ public class MatchController {
 
 
     @PostMapping
-    public RedirectView handleAddMatch(@ModelAttribute("match") Match match){
+    public String handleAddMatch(@Valid @ModelAttribute("match") Match match, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "addMatch";
+        }
         if (match.getId() == null) {
             matchService.create(match);
         } else{
             matchService.update(match);
         }
-        return new RedirectView("/match/all");
+        return "redirect:/match/all";
 
     }
 
