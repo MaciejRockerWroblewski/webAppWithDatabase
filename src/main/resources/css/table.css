@@ -1,0 +1,21 @@
+table{
+    border-spacing: 0;
+}
+
+td{
+    border: 1px solid black;
+    margin: 0;
+    padding: 0;
+}
+thead td{
+    font-weight: bold;
+}
+td {
+    color: darkslategray;
+}
+.even{
+    background-color: deepskyblue;
+}
+.odd {
+    background-color: dodgerblue;
+}

@@ -1,6 +1,7 @@
 package com.example.webapp.web;
 
 import com.example.webapp.api.Match;
+import com.example.webapp.service.BetService;
 import com.example.webapp.service.MatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.view.RedirectView;
 public class MatchController {
 
     private final MatchService matchService;
+    private final BetService betService;
 
     @GetMapping("/all")
     public ModelAndView displayAllMatchesPage(){
@@ -26,6 +28,13 @@ public class MatchController {
         ModelAndView modelAndView = new ModelAndView("addMatch");
         modelAndView.addObject("match", matchService.getById(id));
         return modelAndView;
+    }
+    @GetMapping("/details")
+    public ModelAndView displayDetailsPage(@RequestParam Long id) {
+        ModelAndView mav = new ModelAndView("matchDetails");
+        mav.addObject("match", matchService.getById(id));
+        mav.addObject("bets", betService.getAllForMatch(id));
+        return mav;
     }
     @GetMapping("/delete")
     public RedirectView deleteMatch(@RequestParam Long id) {

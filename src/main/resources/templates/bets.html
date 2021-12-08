@@ -17,35 +17,14 @@
 </head>
 <body>
 
-<h3 th:if="${bets.isEmpty()}">Brak założonych zakładow.</h3>
-<table th:if="${!bets.isEmpty()}">
-    <thead>
-    <tr>
 
-        <td>Lp.</td>
-        <td>Mecz</td>
-        <td>Czas rozpoczęcia</td>
-        <td>Użytkownik</td>
-        <td>Wynik</td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="bet, iterator: ${bets}" th:class="${bet.firstTeamresult != bet.secondTeamResult ?'win' : 'draw'}">
-        <td><span th:text="${iterator.count}"></span></td>
-        <td><span th:text="${bet.firstTeam + '-' + bet.secondTeam}"></span></td>
-        <td><span th:text="${bet.startTime}"></span></td>
-        <td><span th:text="${bet.userLogin}"></span></td>
-        <td><span th:text="${bet.firstTeamResult + '-' + bet.secondTeamResult}"></span></td>
-
-    </tr>
-    </tbody>
-</table>
 </body>
 </html>
     <title>Title</title>
 </head>
 <body>
 <div th:replace="fragments/utils.html :: navigation" />
-
+<div th:replace="fragments/betsTable.html :: table" />
+<div th:replace="fragments/utils.html :: footer" />
 </body>
 </html>

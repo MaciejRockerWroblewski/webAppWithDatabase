@@ -26,7 +26,7 @@
 </head>
 <body>
 
-<h3 th:if="${matches.isEmpty()}">Brak dodanych meczy. <a th:href="@{match}">Dodaj</a></h3>
+<h3 th:if="${matches.isEmpty()}">Brak dodanych meczy. <a th:href="@{/match}">Dodaj</a></h3>
 <table th:unless="${matches.isEmpty()}">
     <thead>
     <tr class="bold">
@@ -46,8 +46,8 @@
         <td><span th:class="${match.isFromPast()?'red' :'black'}" th:text="${match.startTime}"></span></td>
         <td>
             <a th:class="${match.isFromPast()?'red' :'black'}" th:ref="@{'edit?id=' + ${match.id}}">Edytuj</a>
-            &nbsp;
             <a th:class="${match.isFromPast()?'red' :'black'}" th:ref="@{'delete?id=' + ${match.id}}">Skasuj</a>
+            <a th:class="${match.isFromPast()?'red' :'black'}" th:ref="@{'details?id=' + ${match.id}}">Szczegóły</a>
 
         </td>
     </tr>
