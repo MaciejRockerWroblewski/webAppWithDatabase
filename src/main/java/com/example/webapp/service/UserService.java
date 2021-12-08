@@ -67,14 +67,13 @@ public class UserService {
        return toUser(userRepository.getById(id));
    }
 
+
    private User toUser(UserEntity ent) {
        return User.builder()
                .id(ent.getId())
                .firstName(ent.getFirstName())
                .lastName(ent.getLastName())
                .login(ent.getLogin())
-               .role(ent.getRole())
-               .password(ent.getPassword())
                .build();
    }
 }

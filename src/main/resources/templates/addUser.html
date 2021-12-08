@@ -4,6 +4,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Bet app</title>
+        <link th:href="@{/css/nav.css}" rel="stylesheet"/>
+        <link th:href="@{/css/table.css}" rel="stylesheet"/>
     </head>
 <body>
 <div th:replace="fragments/utils.html :: navigation" />
@@ -11,10 +13,12 @@
 <h3>Dodaj użytkownika:</h3>
 
 <form method="post" th:object="${user}" th:action="@{/user}">
-      Imię:<input type="text" th:field="*{firstName}"/>
-Nazwisko: <input type="text" th:field="*{lastName}"/>
-Login: <input type="email" th:field="*{login}"/><br>
-<input type="submit" value="Zapisz"/>
+    <input type="hidden" th:field="*{id}" th:value="${user.id}"/>
+        Imię:<input type="text" th:field="*{firstName}" th:value="${user.firstName}"/>
+        Nazwisko: <input type="text" th:field="*{lastName}" th:value="${user.lastName}"/>
+        Login: <input type="email" th:field="*{login}"
+                      th:value="${user.login}" th:readonly="${isEdited}"/><br>
+        <input type="submit" value="Zapisz"/>
 </form>
 
 <div th:replace="fragments/utils.html :: footer"/>
