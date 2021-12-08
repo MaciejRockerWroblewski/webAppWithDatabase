@@ -21,13 +21,22 @@
         <div class="col-6">
             <div class="container" style="text-align: center">
                 <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-danger" role="alert">
+                            Mecz już się odbył. Nie można go obstawić.
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
                     <div class="col-6">
                         Gospodarz
                     </div>
                     <div class="col-6">
                         Gość
                     </div>
-                </div><div class="row">
+                </div>
+                <div class="row">
                     <div class="col-6">
                         <span th:text="${match.firstTeam}"> </span>
                     </div>
