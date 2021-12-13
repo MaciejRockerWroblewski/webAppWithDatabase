@@ -3,6 +3,7 @@ package com.example.webapp.web;
 import com.example.webapp.api.model.User;
 import com.example.webapp.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,6 +17,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
+    @PreAuthorize("isAnonymous()")
     public ModelAndView displayAddUserPage(){
         ModelAndView mav = new ModelAndView("addUser");
         mav.addObject("user", new User());
