@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:zespół="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Bet app</title>
+    <link th:href="@{/css/nav.css}" rel="stylesheet"/>
+    <link th:href="@{/css/table.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <form method="post" th:action="@{/authenticate}">
+
+                <div class="mb-3">
+                    <label for="loginInput" class="form-label">Login:</label>
+                    <input type="text" name="username" th:field="form-control" id="loginInput">
+                </div>
+                <div class="mb-3">
+                    <label for="passwordInput" class="form-label">Hasło:</label>
+                    <input type="password" name="password" class="form-control" id="passwordInput">
+                </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
