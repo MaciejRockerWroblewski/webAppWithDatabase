@@ -4,29 +4,31 @@ import com.example.webapp.api.model.User;
 import com.example.webapp.api.model.UserSearchParams;
 import com.example.webapp.repository.UserEntity;
 import com.example.webapp.repository.UserRepository;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
    private final UserRepository userRepository;
-
-
    private final PasswordEncoder passwordEncoder;
 
    public Optional<User> findByLogin(String login) {
        return userRepository.findByLogin(login).map(this::toUser);
    }
 
-   public List<User> searchByParams(UserSearchParams userSearchParams) {
-       return userRepository.searchByParams(userSearchParams)
+
+    public List<User> searchByParams(UserSearchParams userSearchParameter) {
+       return userRepository.searchByParams(userSearchParameter)
                .stream()
                .map(this::toUser)
                .collect(Collectors.toList());
@@ -37,8 +39,8 @@ public class UserService {
                .firstName(user.getFirstName())
                .lastName(user.getLastName())
                .login(user.getLogin())
-               .password(passwordEncoder.encode(user.getPassword()))
-               .role(user.getRole())
+                       .password(passwordEncoder.encode(user.getPassword()))
+                       .role(user.getRole())
                .build());
    }
 
@@ -66,14 +68,14 @@ public class UserService {
    public User getById(Long id) {
        return toUser(userRepository.getById(id));
    }
-
-
    private User toUser(UserEntity ent) {
        return User.builder()
                .id(ent.getId())
                .firstName(ent.getFirstName())
                .lastName(ent.getLastName())
                .login(ent.getLogin())
+               .role(ent.getRole())
+               .password(ent.getPassword())
                .build();
    }
 }

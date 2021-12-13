@@ -18,7 +18,7 @@ public class UserEndpoint<UserService> {
 
     @PostMapping("/search")
     public List<User> getBySearchParams(@RequestBody UserSearchParams searchParams) {
-        return userService.searchByParams(searchParams);
+        return userService.searchByParam(searchParams);
     }
 
     @PostMapping

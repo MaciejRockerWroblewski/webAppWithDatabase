@@ -22,8 +22,7 @@ public class MatchService {
     public List<Match> getBySearchParameter(MatchSearchParameter searchParameter) {
         return repository.searchByParams(searchParameter)
                 .stream()
-                .map((Match ent) -> toMatch(MatchEntity.builder()
-                        .build()))
+                .map(this::toMatch)
                 .collect(Collectors.toList());
     }
 

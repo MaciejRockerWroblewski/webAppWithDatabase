@@ -5,6 +5,7 @@ import com.example.webapp.service.BetService;
 import com.example.webapp.service.MatchService;
 import com.example.webapp.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,10 +19,10 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/bet")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('USER')")
 public class BetController {
 
     private final MatchService matchService;
-    private final UserService userService;
     private final BetService betService;
 
     @GetMapping("/all")
@@ -35,11 +36,7 @@ public class BetController {
     public ModelAndView displayBetPage() {
         ModelAndView mav = new ModelAndView("addBet");
         mav.addObject("bet", new NewBet());
-        mav.addObject("users", userService.getAll()
-                .stream()
-                .map(usr -> SelectOption.builder().id(usr.getId()).label(usr.getLogin()).build())
-                .collect(Collectors.toList()));
-        mav.addObject("matches", matchService.getAll()
+                mav.addObject("matches", matchService.getAll()
                 .stream()
                 .map(match -> SelectOption.builder().id(match.getId())
                         .label(match.getFirstTeam() + "-" + match.getSecondTeam()).build())

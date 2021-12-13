@@ -2,16 +2,21 @@ package com.example.webapp.service;
 
 import com.example.webapp.api.model.BetDetails;
 import com.example.webapp.api.model.NewBet;
+import com.example.webapp.api.model.User;
 import com.example.webapp.exception.MatchNotFoundException;
 import com.example.webapp.repository.BetEntity;
 import com.example.webapp.repository.BetRepository;
 import com.example.webapp.repository.MatchEntity;
 import com.example.webapp.repository.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.security.core.context.SecurityContextHolder.getContext;
 
 @Service
 @RequiredArgsConstructor
@@ -19,15 +24,21 @@ public class BetService {
 
     private final MatchService matchService;
     private final BetRepository betRepository;
+    private final UserService userService;
 
     public void createBet(NewBet bet) {
         validateBet(bet);
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        User loggedUser = userService.findByLogin(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalStateException("User not exists"));
 
         BetEntity entity = BetEntity.builder()
                 .firstTeamResult(bet.getFirstTeamResult())
                 .secondTeamResult(bet.getSecondTeamResult())
                 .match(MatchEntity.builder().id(bet.getMatchId()).build())
-                .user(UserEntity.builder().id(bet.getUserId()).build())
+                .user(UserEntity.builder().id(loggedUser.getId()).build())
                 .build();
 
     }

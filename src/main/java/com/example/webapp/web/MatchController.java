@@ -4,6 +4,7 @@ import com.example.webapp.api.Match;
 import com.example.webapp.service.BetService;
 import com.example.webapp.service.MatchService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +28,14 @@ public class MatchController {
         return modelAndView;
     }
     @GetMapping("/edit")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView displayEditMatchPage(@RequestParam Long id) {
         ModelAndView modelAndView = new ModelAndView("addMatch");
         modelAndView.addObject("match", matchService.getById(id));
         return modelAndView;
     }
     @GetMapping("/details")
+    @PreAuthorize("isAuthenticted()")
     public ModelAndView displayDetailsPage(@RequestParam Long id) {
         ModelAndView mav = new ModelAndView("matchDetails");
         mav.addObject("match", matchService.getById(id));
@@ -40,12 +43,14 @@ public class MatchController {
         return mav;
     }
     @GetMapping("/delete")
+    @PreAuthorize("hasRole('ADMIN')")
     public RedirectView deleteMatch(@RequestParam Long id) {
         matchService.delete(id);
         return new RedirectView("/match/all");
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView displayAddMatchPage(){
         ModelAndView modelAndView = new ModelAndView("addMatch");
         modelAndView.addObject("match", new Match());
@@ -55,6 +60,7 @@ public class MatchController {
 
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public String handleAddMatch(@Valid @ModelAttribute("match") Match match, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "addMatch";
@@ -65,8 +71,5 @@ public class MatchController {
             matchService.update(match);
         }
         return "redirect:/match/all";
-
     }
-
-
 }
